@@ -1,49 +1,46 @@
 import React, { createContext, useState, useContext, useEffect } from 'react'
 
-export const stateContext = createContext();
+export const stateContext = createContext()
 
 const getFreshContext = () => {
-    if (localStorage.getItem('context') === null) {
-        localStorage.setItem('context', JSON.stringify(
+    if (localStorage.getItem("user") === null) {
+        localStorage.setItem("user", JSON.stringify(
             {
-                participantId: 0, 
-                timeTaken: 0,
-                selectedOptions: []
+                userId: null,
+                name: "",
+                phone: "",
+                role: "admin",
             }
         ))
     }
-    
-    return JSON.parse(localStorage.getItem("context"));
+
+    return JSON.parse(localStorage.getItem("user"));
 }
 
-// localStorage.setItem('key', obj)
-// localStorage.getItem('key')
-// localStorage.removeItem('key')
-
 export default function useStateContext() {
-    const {context, setContext} = useContext(stateContext);
-    
-    return { 
-        context, 
-        setContext: obj => {
-            setContext({...context, ...obj})
+    const {user, setUser} = useContext(stateContext);
+
+    return {
+        user,
+        setUser: obj => {
+            setUser({...user, ...obj})
         },
-        resetContext: () => {
-            localStorage.removeItem("context");
-            setContext(getFreshContext())
+        resetUser: () => {
+            localStorage.removeItem("user");
+            setUser(getFreshContext())
         }
     }
 }
 
 export function ContextProvider({children}) {
-    const [context, setContext] = useState(getFreshContext());
-  
+    const [user, setUser] = useState(getFreshContext());
+
     useEffect(() => {
-        localStorage.setItem('context', JSON.stringify(context));
-    }, [context])
+        localStorage.setItem("user", JSON.stringify(user));
+    }, [user]);
 
     return (
-        <stateContext.Provider value={{context, setContext}}>
+        <stateContext.Provider value={{ user, setUser }}>
             {children}
         </stateContext.Provider>
   )

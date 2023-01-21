@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
 import { Button, TextField, Box, Card, CardContent, Typography } from '@mui/material';
-import Center from './Center';
+import Center from './Helpers/Center';
 import useForm from '../hooks/useForm';
 import { createAPIEndpoint, ENDPOINTS } from '../api';
 import useStateContext from '../hooks/useStateContext';
 import { useNavigate } from "react-router-dom";
 
 const getFreshModel = () => ({
-    name: "",
-    email: ""
+    email: "",
+    password: ""
 })
 
 export default function Login() {
 
-    const { context, setContext, resetContext} = useStateContext();
+    const { user, setUser, resetUser } = useStateContext();
     const navigate = useNavigate();
 
 
@@ -26,27 +26,29 @@ export default function Login() {
     } = useForm(getFreshModel);
 
     useEffect(() => {
-        resetContext();
+        resetUser();
     }, [])
     
 
     const login = e => {
         e.preventDefault();
         if (validate()) 
-            createAPIEndpoint(ENDPOINTS.participant)
+            createAPIEndpoint(ENDPOINTS.user.post.login)
                 .post(values)
                 .then(res => {
-                    setContext({participantId: res.data.participantId});
-                    navigate("/quiz");
+                    setUser(res.data);
+                    console.log(res.data);
+                    // setUser({participantId: res.data.participantId});
+                    navigate("/home");
                 })
-                .catch(err => console.log(err));
+                .catch(err => console.log("Bad Login: ", err));
         // console.log(errors)
     }
 
     const validate = () => {
         let temp = {}
         temp.email = (/^[a-zA-Z\d]+@(?:[a-zA-Z\d]+\.)+[A-Za-z]+$/).test(values.email) ? "" : "Email is not valid.";
-        temp.name = values.name !== "" ? "" : "Name required";
+        temp.password = values.password !== "" ? "" : "Please Enter Password";
         setErrors(temp);
         return Object.values(temp).every(x => x === "");
     }
@@ -76,12 +78,12 @@ export default function Login() {
                             {...(errors.email && {error: true, helperText: errors.email})}
                             />
                         <TextField
-                            label="Name"
-                            name="name"
-                            value={values.name}
+                            label="Password"
+                            name="password"
+                            value={values.password}
                             variant="outlined"
                             onChange={handleInputChange}
-                            {...(errors.name && {error: true, helperText: errors.name})}
+                            {...(errors.password && {error: true, helperText: errors.password})}
                             />
                         <Button
                             type='submit'
