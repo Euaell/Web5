@@ -2,8 +2,7 @@ import React from 'react';
 import {Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar} from "@mui/material"
 import GroupIcon from '@mui/icons-material/Group'
 import SensorsIcon from '@mui/icons-material/Sensors'
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import Center from "./Helpers/Center";
+import ReceiptIcon from '@mui/icons-material/Receipt'
 import {useNavigate} from "react-router-dom";
 import {Outlet} from "react-router";
 const CustomerIcon = GroupIcon

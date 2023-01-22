@@ -23,7 +23,7 @@ export default function Layout() {
       <Box sx={{ display: 'flex' }}>
           <CssBaseline />
           <AppBar position='fixed'
-                  sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                  sx={{ zIndex: (theme) => theme.zIndex.drawer + 3 }}
           >
               <Toolbar sx={{width: 640, m: "auto"}}>
                   <Typography
