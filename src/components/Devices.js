@@ -7,16 +7,27 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {createAPIEndpoint, ENDPOINTS} from "../api";
-import {Backdrop, CircularProgress, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {Backdrop, CircularProgress, FormControl, InputLabel, MenuItem, Select, TablePagination} from "@mui/material";
 
 export default function Devices() {
 	const [rows, setRows] = React.useState([])
 	const [loading, setLoading] = React.useState(true)
 	const [status, setStatus] = React.useState("either")
 	const [type, setType] = React.useState("either")
+	const [page, setPage] = React.useState(0);
+  	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+	  const handleChangePage = (event, newPage) => {
+		setPage(newPage);
+	  };
+
+	  const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(event.target.value);
+		setPage(0);
+	  };
 
 	React.useEffect(() => {
-		createAPIEndpoint(ENDPOINTS.device.get.all + `/?status=${status}&type=${type}`)
+		createAPIEndpoint(ENDPOINTS.device.get.all + `/?status=${status}&type=${type}&page=${page}&limit=${rowsPerPage}`)
 			.fetch()
 			.then(res => {
 				return res.data
@@ -27,7 +38,7 @@ export default function Devices() {
 				console.log(data.devices)
 			})
 			.catch(err => console.log(err))
-	}, [type, status])
+	}, [type, status, page, rowsPerPage])
 
 	const handleChangeStatus = (event) => {
 		setStatus(event.target.value)
@@ -110,7 +121,14 @@ export default function Devices() {
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
+	  </TableContainer>
+		  <TablePagination
+			  count={rows.length}
+			  page={page}
+			  rowsPerPage={rowsPerPage}
+			  onPageChange={handleChangePage}
+			  onRowsPerPageChange={handleChangeRowsPerPage}
+		  />
 		  </>
   )
 }
