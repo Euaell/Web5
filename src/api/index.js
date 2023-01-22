@@ -43,7 +43,8 @@ export const ENDPOINTS = {
     user: {
         get: {
             all: "users",
-            byId: "users/"
+            byId: "users/",
+            logout: "users/logout"
         },
         post: {
             create: "users/create",

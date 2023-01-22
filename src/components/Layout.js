@@ -3,14 +3,21 @@ import React from 'react'
 import { Outlet } from 'react-router';
 import { useNavigate } from "react-router-dom";
 import useStateContext from '../hooks/useStateContext';
+import {createAPIEndpoint, ENDPOINTS} from "../api";
 
 export default function Layout() {
-    const {resetContext} = useStateContext();
+    const {resetUser} = useStateContext();
     const navigate = useNavigate();
 
     const logout = () => {
-        resetContext();
-        navigate("/");
+        resetUser();
+        createAPIEndpoint(ENDPOINTS.user.get.logout)
+            .fetch()
+            .then(res => {
+                console.log(res.data);
+                navigate("/login");
+            })
+            .catch(err => console.log(err));
     }
 
   return (
@@ -21,7 +28,7 @@ export default function Layout() {
                 variant='h4'
                 align='center'
                 sx={{flexGrow: 1}}>
-                  Quiz App
+                  Central Water Management System
               </Typography>
               <Button sx={{color: "red"}} onClick={logout}>Logout</Button>
           </Toolbar>
