@@ -24,6 +24,7 @@ export default function useStateContext() {
         user,
         setUser: obj => {
             setUser({...user, ...obj})
+            localStorage.setItem("user", JSON.stringify({...user, ...obj}))
         },
         resetUser: () => {
             localStorage.removeItem("user");

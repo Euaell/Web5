@@ -55,9 +55,11 @@ export default function Login() {
         if (validate())
             createAPIEndpoint(ENDPOINTS.user.post.login)
                 .post(values)
+                .then(result => {
+                    return result.data;
+                })
                 .then(res => {
-                    setUser(res.data);
-                    console.log(res.data);
+                    setUser(res.user);
                     navigate("/home");
                 })
                 .catch(err => console.log("Bad Login: ", err))
@@ -78,7 +80,7 @@ export default function Login() {
                 <Typography variant="h3"
                         sx ={{my: 3}}>
                             BALDI
-                        </Typography>
+                </Typography>
                 <Box sx={{
                     m: 3,
                     '& .MuiTextField-root':{
@@ -94,17 +96,8 @@ export default function Login() {
                             variant="outlined"
                             onChange={handleInputChange}
                             {...(errors.email && {error: true, helperText: errors.email})}
-                            />
+                        />
 
-                        {/*<TextField*/}
-                        {/*    label="Password"*/}
-                        {/*    name="password"*/}
-                        {/*    value={values.password}*/}
-                        {/*    type="password"*/}
-                        {/*    variant="outlined"*/}
-                        {/*    onChange={handleInputChange}*/}
-                        {/*    {...(errors.password && {error: true, helperText: errors.password})}*/}
-                        {/*/>*/}
                         <FormControl sx={{ m: 1, width: '90%' }} variant="outlined">
                           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                           <OutlinedInput
