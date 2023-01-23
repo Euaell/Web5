@@ -7,17 +7,17 @@ axios.defaults.withCredentials = true
 export const ENDPOINTS = {
     customer: {
         get: {
-            all: "customer",
-            byId: "customer/"
+            all: "customers",
+            byId: "customers/"
         },
         post: {
-            create: "customer"
+            create: "customers"
         },
         put: {
-            update: "customer/"
+            update: "customers/"
         },
         delete: {
-            delete: "customer/"
+            delete: "customers/"
         }
     },
     device: {

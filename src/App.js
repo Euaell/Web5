@@ -20,6 +20,7 @@ function App() {
 						<Route path="devices" element={<Devices />} />
 						<Route path="bills" element={<Bills />} />
 					</Route>
+					<Route path="*" element={<h1>Landing</h1>} />
 				</Route>
 			</Route>
 			<Route path="*" element={<h1>404: Not Found</h1>} />

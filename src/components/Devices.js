@@ -7,7 +7,16 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {createAPIEndpoint, ENDPOINTS} from "../api";
-import {Backdrop, CircularProgress, FormControl, InputLabel, MenuItem, Select, TablePagination} from "@mui/material";
+import {
+	Backdrop,
+	Button,
+	CircularProgress,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+	TablePagination
+} from "@mui/material";
 
 export default function Devices() {
 	const [rows, setRows] = React.useState([])
@@ -111,7 +120,13 @@ export default function Devices() {
 				  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 				>
 				  <TableCell component="th" scope="row">
-					{row.status === "active" ? "Active" : "Inactive"}
+					<Button
+						variant="outlined"
+						color={"success"}
+						{...(row.status === "active" && {color:"error"})}
+						>
+						{row.status === "active" ? "Active" : "Inactive"}
+					</Button>
 				  </TableCell>
 				  <TableCell align="center">{row.state ? row.state : 'N/A'}</TableCell>
 				  <TableCell align="center">{row.city ? row.city : 'N/A'}</TableCell>
