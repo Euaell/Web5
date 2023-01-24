@@ -1,8 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -29,7 +27,6 @@ export default function AddCustomer() {
 		  .fetch()
 		  .then((res) => res.data)
 		  .then((data) => {
-			  console.log(data.devices)
 			setDevicesSelection(data.devices);
 		  })
 		  .catch((err) => {
@@ -61,8 +58,7 @@ export default function AddCustomer() {
 		createAPIEndpoint(ENDPOINTS.customer.post.createCustomer)
 		  .post(data)
 		  .then((res) => {
-			// navigate("/devices");
-			  console.log(res);
+			navigate("/home/customers");
 		  })
 		  .catch((err) => {
 			console.log(err);

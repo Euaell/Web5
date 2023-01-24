@@ -8,7 +8,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {createAPIEndpoint, ENDPOINTS} from "../api";
 import {
-	Backdrop,
 	Button,
 	CircularProgress,
 	FormControl,
@@ -25,8 +24,12 @@ export default function Devices() {
 	const [type, setType] = React.useState("either")
 	const [page, setPage] = React.useState(0);
   	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+	  const [count, setCount] = React.useState(0);
 
-	  const handleChangePage = (event, newPage) => {
+	  const handleChangePage = (
+		  event: React.MouseEvent<HTMLButtonElement> | null,
+		  newPage: number
+	  ) => {
 		setPage(newPage);
 	  };
 
@@ -36,12 +39,13 @@ export default function Devices() {
 	  };
 
 	React.useEffect(() => {
-		createAPIEndpoint(ENDPOINTS.device.get.all + `/?status=${status}&type=${type}&page=${page}&limit=${rowsPerPage}`)
+		createAPIEndpoint(ENDPOINTS.device.get.all + `/?status=${status}&type=${type}&page=${page + 1}&limit=${rowsPerPage}`)
 			.fetch()
 			.then(res => {
 				return res.data
 			})
 			.then(data => {
+				setCount(data.total)
 				setRows(data.devices)
 				setLoading(false)
 				console.log(data.devices)
@@ -55,14 +59,6 @@ export default function Devices() {
 	const handleChangeType = (event) => {
 		setType(event.target.value)
 	}
-
-    if (loading) {
-        return (
-            <>
-                <h1>Loading...</h1>
-            </>
-        )
-    }
 
   return (
 	  <>
@@ -138,11 +134,13 @@ export default function Devices() {
       </Table>
 	  </TableContainer>
 		  <TablePagination
-			  count={rows.length}
+			  count={count}
 			  page={page}
 			  rowsPerPage={rowsPerPage}
 			  onPageChange={handleChangePage}
 			  onRowsPerPageChange={handleChangeRowsPerPage}
+			  showFirstButton={true}
+			  showLastButton={true}
 		  />
 		  </>
   )

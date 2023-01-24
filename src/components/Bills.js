@@ -27,8 +27,12 @@ export default function Bills() {
   	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	  const [date, setDate] = React.useState(new Date());
 	  const [paid, setPaid] = React.useState("either")
+	const [count, setCount] = React.useState(0)
 
-	  const handleChangePage = (event, newPage) => {
+	  const handleChangePage = (
+		  event: React.MouseEvent<HTMLButtonElement> | null,
+		  newPage: number
+	  ) => {
 		setPage(newPage);
 	  };
 
@@ -42,8 +46,7 @@ export default function Bills() {
 	  }
 
 	  const handleChangePaid = (event) => {
-		  console.log(event.target.value)
-		setPaid(event.target.value)
+		  setPaid(event.target.value)
 	  }
 
 	React.useEffect(() => {
@@ -53,20 +56,12 @@ export default function Bills() {
 				return res.data
 			})
 			.then(data => {
-				console.log(data.bills)
+				setCount(data.total)
 				setRows(data.bills)
 				setLoading(false)
 			})
 			.catch(err => console.log(err))
 	}, [paid, page, rowsPerPage])
-
-    if (loading) {
-        return (
-            <>
-                <h1>Loading...</h1>
-            </>
-        )
-    }
 
   return (
 	  <>
@@ -142,11 +137,13 @@ export default function Bills() {
       </Table>
 	  </TableContainer>
 		  <TablePagination
-			  count={rows.length}
+			  count={count}
 			  page={page}
 			  rowsPerPage={rowsPerPage}
 			  onPageChange={handleChangePage}
 			  onRowsPerPageChange={handleChangeRowsPerPage}
+			  showFirstButton={true}
+			  showLastButton={true}
 		  />
 	  </>
   )

@@ -6,7 +6,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import {Button, CircularProgress, TablePagination} from "@mui/material";
+import { CircularProgress, TablePagination} from "@mui/material";
 import {createAPIEndpoint, ENDPOINTS} from "../api";
 
 export default function Customers() {
@@ -14,8 +14,12 @@ export default function Customers() {
 	const [loading, setLoading] = React.useState(true)
 	const [page, setPage] = React.useState(0);
   	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+	  const [count, setCount] = React.useState(0)
 
-	  const handleChangePage = (event, newPage) => {
+	  const handleChangePage = (
+		  event: React.MouseEvent<HTMLButtonElement> | null,
+		  newPage: number
+	  ) => {
 		setPage(newPage);
 	  };
 
@@ -25,26 +29,18 @@ export default function Customers() {
 	  };
 
 	React.useEffect(() => {
-		createAPIEndpoint(ENDPOINTS.customer.get.all + `/?page=${page}&limit=${rowsPerPage}`)
+		createAPIEndpoint(ENDPOINTS.customer.get.all + `/?page=${page + 1}&limit=${rowsPerPage}`)
 			.fetch()
 			.then(res => {
 				return res.data
 			})
 			.then(data => {
+				setCount(data.total)
 				setRows(data.customers)
 				setLoading(false)
-				console.log(data.customers)
 			})
 			.catch(err => console.log(err))
 	}, [page, rowsPerPage])
-
-    if (loading) {
-        return (
-            <>
-                <h1>Loading...</h1>
-            </>
-        )
-    }
 
   return (
 	  <>
@@ -82,11 +78,13 @@ export default function Customers() {
       </Table>
 	  </TableContainer>
 		  <TablePagination
-			  count={rows.length}
+			  count={count}
 			  page={page}
 			  rowsPerPage={rowsPerPage}
 			  onPageChange={handleChangePage}
 			  onRowsPerPageChange={handleChangeRowsPerPage}
+			  showFirstButton={true}
+			  showLastButton={true}
 		  />
 	  </>
   )
