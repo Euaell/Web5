@@ -9,6 +9,9 @@ export default function Layout() {
     const {resetUser} = useStateContext();
     const navigate = useNavigate();
 
+    const goHome = () => {
+        navigate("/home")
+    }
     const logout = () => {
         resetUser();
         createAPIEndpoint(ENDPOINTS.user.get.logout)
@@ -32,6 +35,13 @@ export default function Layout() {
                     sx={{flexGrow: 2}}>
                       C.W.M. System
                   </Typography>
+                    <Button
+                        variant='contained'
+                        color='secondary'
+                        onClick={goHome}
+                    >
+                        Home
+                    </Button>
                   <Button sx={{color: "red"}} onClick={logout}>Logout</Button>
               </Toolbar>
           </AppBar>

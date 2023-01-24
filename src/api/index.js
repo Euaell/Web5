@@ -11,7 +11,8 @@ export const ENDPOINTS = {
             byId: "customers/"
         },
         post: {
-            create: "customers"
+            create: "customers",
+            createCustomer: "customers/createUser"
         },
         put: {
             update: "customers/"
@@ -26,6 +27,7 @@ export const ENDPOINTS = {
             byId: "devices/",
             listbyadmin: "devices/listbyadmin",
             getcloseddevices: "devices/getcloseddevices",
+            getAvailableDevices: "devices/getAvailableDevices",
             open: "devices/open/",
             close: "devices/close/"
         },

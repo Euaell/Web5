@@ -7,6 +7,8 @@ import Home from "./components/Home";
 import Customers from "./components/Customers";
 import Devices from "./components/Devices";
 import Bills from "./components/Bills";
+import AddDevice from "./components/AddDevice";
+import AddCustomer from "./components/AddCustomer";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
 						<Route path="customers" element={<Customers />} />
 						<Route path="devices" element={<Devices />} />
 						<Route path="bills" element={<Bills />} />
+						<Route path="addDevice" element={<AddDevice />} />
+						<Route path="addCustomer" element={<AddCustomer />} />
 					</Route>
 					<Route path="*" element={<h1>Landing</h1>} />
 				</Route>

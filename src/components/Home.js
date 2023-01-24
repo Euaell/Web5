@@ -3,12 +3,15 @@ import {Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, List
 import GroupIcon from '@mui/icons-material/Group'
 import SensorsIcon from '@mui/icons-material/Sensors'
 import ReceiptIcon from '@mui/icons-material/Receipt'
-import {useNavigate} from "react-router-dom";
+import AddIcon from '@mui/icons-material/Add';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import {useLocation, useNavigate} from "react-router-dom";
 import {Outlet} from "react-router";
 const CustomerIcon = GroupIcon
 
 function Home() {
     const navigate = useNavigate();
+    const location = useLocation()
     const drawerWidth = 240
     const NavBarItems = [
         {
@@ -28,6 +31,18 @@ function Home() {
         }
     ]
 
+    const secondaryNavBarItems = [
+        {
+            text: "Add Device",
+            icon: <AddIcon />,
+            path: "addDevice"
+        },
+        {
+            text: "Add Customer",
+            icon: <PersonAddAltIcon />,
+            path: "addCustomer"
+        }
+    ]
     return (
         <>
             <Drawer
@@ -42,7 +57,11 @@ function Home() {
                 <Box sx={{ overflow: 'auto' }}>
                   <List>
                     {NavBarItems.map((item, index) => (
-                        <ListItem key={item.text} disablePadding>
+                        <ListItem
+                            key={item.text}
+                            selected={location.pathname === `/home/${item.path}`}
+                            disablePadding
+                        >
                             <ListItemButton
                                 onClick={() => navigate(item.path)}
                             >
@@ -55,6 +74,25 @@ function Home() {
                     ))}
                   </List>
                   <Divider />
+                    <List>
+                        {secondaryNavBarItems.map((item, index) => (
+                            <ListItem
+                                key={item.text}
+                                selected={location.pathname === `/home/${item.path}`}
+                                disablePadding
+                            >
+                                <ListItemButton
+                                    onClick={() => navigate(item.path)}
+                                >
+                                    <ListItemIcon>
+                                        {item.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={item.text} />
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Divider />
                 </Box>
           </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
