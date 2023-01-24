@@ -9,6 +9,7 @@ import Devices from "./components/Devices";
 import Bills from "./components/Bills";
 import AddDevice from "./components/AddDevice";
 import AddCustomer from "./components/AddCustomer";
+import Settings from "./components/Settings";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
 						<Route path="bills" element={<Bills />} />
 						<Route path="addDevice" element={<AddDevice />} />
 						<Route path="addCustomer" element={<AddCustomer />} />
+						<Route path="settings" element={<Settings />} />
 					</Route>
 					<Route path="*" element={<h1>Landing</h1>} />
 				</Route>

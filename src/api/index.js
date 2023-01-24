@@ -51,7 +51,8 @@ export const ENDPOINTS = {
         post: {
             create: "users/create",
             login: "users/login",
-            verify: "users/verifyuser"
+            verify: "users/verifyuser",
+            changePassword: "users/changePassword"
         }
     },
     bill: {

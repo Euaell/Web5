@@ -3,6 +3,7 @@ import {Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, List
 import GroupIcon from '@mui/icons-material/Group'
 import SensorsIcon from '@mui/icons-material/Sensors'
 import ReceiptIcon from '@mui/icons-material/Receipt'
+import SettingsIcon from '@mui/icons-material/Settings';
 import AddIcon from '@mui/icons-material/Add';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import {useLocation, useNavigate} from "react-router-dom";
@@ -41,6 +42,14 @@ function Home() {
             text: "Add Customer",
             icon: <PersonAddAltIcon />,
             path: "addCustomer"
+        }
+    ]
+
+    const thirdNavBarItems = [
+        {
+            text: "Settings",
+            icon: <SettingsIcon />,
+            path: "settings"
         }
     ]
     return (
@@ -93,6 +102,24 @@ function Home() {
                         ))}
                     </List>
                     <Divider />
+                    <List>
+                        {thirdNavBarItems.map((item, index) => (
+                            <ListItem
+                                key={item.text}
+                                selected={location.pathname === `/home/${item.path}`}
+                                disablePadding
+                            >
+                                <ListItemButton
+                                    onClick={() => navigate(item.path)}
+                                >
+                                    <ListItemIcon>
+                                        {item.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={item.text} />
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                    </List>
                 </Box>
           </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
