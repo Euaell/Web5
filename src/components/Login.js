@@ -26,6 +26,7 @@ const getFreshModel = () => ({
 
 export default function Login() {
     const [showPassword, setShowPassword] = React.useState(false);
+    const { setToken } = useStateContext();
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -59,8 +60,9 @@ export default function Login() {
                     return result.data;
                 })
                 .then(res => {
-                    setUser(res.user);
-                    navigate("/home");
+                    setToken(res.token)
+                    setUser(res.user)
+                    navigate("/home")
                 })
                 .catch(err => console.log("Bad Login: ", err))
     }

@@ -188,7 +188,7 @@ export default function AddCustomer() {
 							{...(errors.devices && {error:true, helperText:errors.devices})}
 						>
 							{devicesSelection.map((device) => (
-								<MenuItem value={device._id}>{device._id}</MenuItem>
+								<MenuItem key={device._id} value={device._id}>{device._id}</MenuItem>
 							))}
 						</Select>
 					</FormControl>
