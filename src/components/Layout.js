@@ -6,7 +6,7 @@ import useStateContext from '../hooks/useStateContext';
 import {createAPIEndpoint, ENDPOINTS} from "../api";
 
 export default function Layout() {
-    const {resetUser, resetToken } = useStateContext();
+    const { user, resetUser, resetToken } = useStateContext();
     const navigate = useNavigate();
 
     const goHome = () => {
@@ -29,21 +29,37 @@ export default function Layout() {
           <AppBar position='fixed'
                   sx={{ zIndex: (theme) => theme.zIndex.drawer + 3 }}
           >
-              <Toolbar sx={{width: 640, m: "auto"}}>
+              <Toolbar sx={{m: "auto", width: "100%" }}>
+
                   <Typography
                     variant='h4'
-                    align='center'
-                    sx={{flexGrow: 2}}>
+                    align='left'
+                    sx={{
+                        flexGrow: 0,
+                        m: 2,
+                    }}
+                  >
                       C.W.M. System
                   </Typography>
-                    <Button
+                  <Button
                         variant='contained'
                         color='secondary'
+                        align='left'
                         onClick={goHome}
                     >
                         Home
-                    </Button>
-                  <Button sx={{color: "red"}} onClick={logout}>Logout</Button>
+                  </Button>
+                  <Typography
+                        align='right'
+                        sx={{
+                            flexGrow: 1,
+                            m: 2,
+                        }}
+                  >
+                      Hello, {user?.name}
+                  </Typography>
+
+                  <Button variant={'contained'} color={'inherit'} sx={{color: "red"}} onClick={logout}>Logout</Button>
               </Toolbar>
           </AppBar>
           <Outlet />
