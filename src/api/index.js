@@ -1,8 +1,10 @@
 import axios from 'axios'
 
 const BASE_URL = "https://cwm.onrender.com/"
+// const BASE_URL = "http://localhost:4000/"
 
 axios.defaults.withCredentials = true
+axios.defaults.credentials = "include"
 
 export const ENDPOINTS = {
     customer: {
@@ -67,12 +69,21 @@ export const ENDPOINTS = {
 
 export const createAPIEndpoint = endpoint => {
     let url = BASE_URL + endpoint + "/"
-
+    const token = localStorage.getItem("token") || null
+    const options = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Credentials': 'true',
+            'token': token
+        },
+        withCredentials: true
+    }
+    console.log(options)
     return {
-        fetch: () => axios.get(url),
-        fetchById: id => axios.get(url + id),
-        post: newRecord => axios.post(url, newRecord),
-        put: (id, updatedRecord) => axios.put(url + id, updatedRecord),
-        delete: id => axios.delete(url + id)
+        fetch: () => axios.get(url, options),
+        fetchById: id => axios.get(url + id, options),
+        post: newRecord => axios.post(url, newRecord, options),
+        put: (id, updatedRecord) => axios.put(url + id, updatedRecord, options),
+        delete: id => axios.delete(url + id, options),
     }
 }

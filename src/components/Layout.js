@@ -6,17 +6,18 @@ import useStateContext from '../hooks/useStateContext';
 import {createAPIEndpoint, ENDPOINTS} from "../api";
 
 export default function Layout() {
-    const {resetUser} = useStateContext();
+    const {resetUser, resetToken } = useStateContext();
     const navigate = useNavigate();
 
     const goHome = () => {
         navigate("/home")
     }
     const logout = () => {
-        resetUser();
         createAPIEndpoint(ENDPOINTS.user.get.logout)
             .fetch()
             .then(res => {
+                resetToken()
+                resetUser()
                 navigate("/login");
             })
             .catch(err => console.log(err));
