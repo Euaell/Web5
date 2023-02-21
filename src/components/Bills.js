@@ -14,10 +14,9 @@ import {
 	InputLabel,
 	MenuItem,
 	Select,
-	TablePagination,
-	TextField
+	TablePagination
 } from "@mui/material";
-import {MonthPicker} from "@mui/x-date-pickers";
+import {DatePicker} from "antd";
 
 export default function Bills() {
 
@@ -25,7 +24,7 @@ export default function Bills() {
 	const [loading, setLoading] = React.useState(true)
 	const [page, setPage] = React.useState(0);
   	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-	  const [date, setDate] = React.useState(new Date());
+	  const [date, setDate] = React.useState(null);
 	  const [paid, setPaid] = React.useState("either")
 	const [count, setCount] = React.useState(0)
 
@@ -41,8 +40,8 @@ export default function Bills() {
 		setPage(0);
 	  };
 
-	  const handleChangeMonth = (event) => {
-		console.log(event.target.value)
+	  const handleChangeMonth = (date, dateString) => {
+		  setDate(dateString)
 	  }
 
 	  const handleChangePaid = (event) => {
@@ -50,7 +49,7 @@ export default function Bills() {
 	  }
 
 	React.useEffect(() => {
-		createAPIEndpoint(ENDPOINTS.bill.get.all + `/?page=${page}&limit=${rowsPerPage}&paid=${paid}`)
+		createAPIEndpoint(ENDPOINTS.bill.get.all + `/?page=${page}&limit=${rowsPerPage}&paid=${paid}&date=${date}`)
 			.fetch()
 			.then(res => {
 				return res.data
@@ -61,7 +60,7 @@ export default function Bills() {
 				setLoading(false)
 			})
 			.catch(err => console.log(err))
-	}, [paid, page, rowsPerPage])
+	}, [paid, page, rowsPerPage, date])
 
   return (
 	  <>
@@ -82,16 +81,9 @@ export default function Bills() {
 			  </Select>
 			</FormControl>
 
-		  <TextField
-			id="date"
-			label="Month"
-			type="date"
-			defaultValue="2021-08"
-			onChange={handleChangeMonth}
-			InputLabelProps={{
-							  shrink: true,
-							}}
-					  />
+
+    	<DatePicker onChange={handleChangeMonth} picker="month" style={{margin: "10px"}} popupStyle={{ zIndex: 5000, marginTop: "40px" }}
+		/>
 
 		  <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

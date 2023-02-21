@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -8,6 +8,7 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import { CircularProgress, TablePagination} from "@mui/material";
 import {createAPIEndpoint, ENDPOINTS} from "../api";
+import {AutoComplete, Input} from "antd";
 
 export default function Customers() {
 	const [rows, setRows] = React.useState([])
@@ -15,6 +16,26 @@ export default function Customers() {
 	const [page, setPage] = React.useState(0);
   	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	  const [count, setCount] = React.useState(0)
+	const [options, setOptions] = useState([]);
+
+	  const searchResult = (query) => {
+			createAPIEndpoint(ENDPOINTS.customer.get.all + `?phoneSrc=${query}`)
+				.fetch()
+				.then(res => {
+					console.log(res.data);
+					return res.data;
+				})
+				.then(data => {
+					setRows(data.customers)
+				})
+				.catch(console.error)
+		}
+  const handleSearch = (value) => {
+    setOptions(value ? searchResult(value) : []);
+  };
+  const onSelect = (value) => {
+    console.log('onSelect', value);
+  };
 
 	  const handleChangePage = (
 		  event: React.MouseEvent<HTMLButtonElement> | null,
@@ -44,6 +65,19 @@ export default function Customers() {
 
   return (
 	  <>
+		   <AutoComplete
+			  dropdownMatchSelectWidth={252}
+			  style={{
+				width: 300,
+			  }}
+			  options={options}
+			  onSelect={onSelect}
+			  onSearch={handleSearch}
+			>
+			  <Input.Search size="large" placeholder="Filter By Phone No." enterButton />
+			</AutoComplete>
+		  <br/>
+		  <hr />
 		  <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
