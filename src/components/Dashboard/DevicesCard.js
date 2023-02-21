@@ -1,17 +1,17 @@
 import {Avatar, Card, CardContent, CircularProgress, Grid, Typography} from '@mui/material';
-import GroupIcon from "@mui/icons-material/Group";
+import SensorsIcon from '@mui/icons-material/Sensors';
 import React from 'react'
 import {createAPIEndpoint, ENDPOINTS} from "../../api";
 
 export default function CustomersCard (props) {
-	const [customers, setCustomers] = React.useState(0)
+	const [devices, setDevices] = React.useState(0)
 	const [loading, setLoading] = React.useState(true)
 
 	React.useEffect(() => {
-		createAPIEndpoint(ENDPOINTS.customer.get.all)
+		createAPIEndpoint(ENDPOINTS.device.get.all)
 			.fetch()
 			.then(res => {
-				setCustomers(res.data.total)
+				setDevices(res.data.total)
 				setLoading(false)
 			})
 			.catch(console.log)
@@ -19,7 +19,7 @@ export default function CustomersCard (props) {
 
 	return (
 		<Card
-			sx={{ height: '100%' }}
+			sx={{ height: '100%', mx: 2}}
 			{...props}
 		>
 			<CardContent>
@@ -34,7 +34,7 @@ export default function CustomersCard (props) {
 							gutterBottom
 							variant="overline"
 						>
-							Number of Customers
+							Number of Devices in the system
 						</Typography>
 						{ loading ?
 							<CircularProgress color="inherit"/>
@@ -43,7 +43,7 @@ export default function CustomersCard (props) {
 								color="textPrimary"
 								variant="h4"
 								>
-								{ customers }
+								{ devices }
 							</Typography>
 						}
 					</Grid>
@@ -55,7 +55,7 @@ export default function CustomersCard (props) {
 								width: 56
 							}}
 						>
-							<GroupIcon />
+							<SensorsIcon />
 						</Avatar>
 					</Grid>
 				</Grid>

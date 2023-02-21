@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { QRCode, Popover } from 'antd';
 import {createAPIEndpoint, ENDPOINTS} from "../api";
 import {
 	Button,
@@ -46,6 +47,7 @@ export default function Devices() {
 			})
 			.then(data => {
 				setCount(data.total)
+				console.log("row", data.devices)
 				setRows(data.devices)
 				setLoading(false)
 				console.log(data.devices)
@@ -60,7 +62,20 @@ export default function Devices() {
 		setType(event.target.value)
 	}
 
-  return (
+	function downloadQRCode() {
+		const canvas = document.getElementById('qrcode')?.querySelector('canvas');
+		if (canvas) {
+			const url = canvas.toDataURL();
+			const a = document.createElement('a');
+			a.download = 'QRCode.png';
+			a.href = url;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+		}
+	}
+
+	return (
 	  <>
 		  <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
 			  <InputLabel id="demo-select-small">Status</InputLabel>
@@ -103,6 +118,7 @@ export default function Devices() {
             <TableCell align="center">City</TableCell>
             <TableCell align="center">Address</TableCell>
             <TableCell align="center">Admin</TableCell>
+			<TableCell align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -128,6 +144,11 @@ export default function Devices() {
 				  <TableCell align="center">{row.city ? row.city : 'N/A'}</TableCell>
 				  <TableCell align="center">{row.address ? row.address : 'N/A'}</TableCell>
 				  <TableCell align="center">{row.admin ? row.admin.name : 'N/A'}</TableCell>
+				  <TableCell align="center">
+					  <Popover id={"qrcode"} overlayInnerStyle={{ padding: 0 }} content={<QRCode value={row._id} bordered={false}/>}>
+						<Button variant="outlined" color="primary" onClick={downloadQRCode}> QR Code </Button>
+					  </Popover>
+				  </TableCell>
 				</TableRow>
           ))}
         </TableBody>
